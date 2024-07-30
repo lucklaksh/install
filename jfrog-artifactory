@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Update package list and install Docker
+sudo apt-get update
+sudo apt-get install -y docker.io
+
+# Create a Docker volume for Artifactory data
+sudo docker volume create artifactory-data
+
+# Pull the JFrog Artifactory image
+sudo docker pull docker.bintray.io/jfrog/artifactory-oss:latest
+
+# Run the Artifactory container
+sudo docker run -d \
+  --name artifactory \
+  -p 8081:8081 \
+  -p 8082:8082 \
+  -v artifactory-data:/var/opt/jfrog/artifactory \
+  docker.bintray.io/jfrog/artifactory-oss:latest
+
+# Print out the status of the Artifactory container
+sudo docker ps -a | grep artifactory
+
+# Print the message to access Artifactory
+echo "Artifactory is now running. Access it at:"
+echo "Web UI: http://localhost:8081"
+echo "Service Access: http://localhost:8082"
+
