@@ -1,0 +1,8 @@
+# Adjust directory ownership and permissions
+sudo docker pull sonatype/nexus3:latest
+
+sudo chown -R 200:200 /opt/sonatype-work
+sudo chmod -R 755 /opt/sonatype-work
+
+sudo docker run -d -p 8081:8081 --name nexus -v /opt/sonatype-work:/nexus-data sonatype/nexus3
+
