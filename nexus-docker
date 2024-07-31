@@ -7,6 +7,7 @@ else
     curl -s https://raw.githubusercontent.com/jaintpharsha/install/main/docker | sudo bash 
 fi
 docker pull sonatype/nexus3:latest
+
 echo "Create volumes for sonarqube to persist data"
 docker volume create --name sonatype-work
 
@@ -15,4 +16,5 @@ docker run -d --name nexus \
     -v sonatype-work:/nexus-data \
     sonatype/nexus3
 
-
+# makesure we have 4gb available Ram or else it will throw error
+# docker run -d  --name nexus --ulimit nofile=65536:65536 --ulimit nproc=65536:65536 -p 8081:8081 -v sonatype-work:/nexus-data  sonatype/nexus3
